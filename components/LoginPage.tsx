@@ -13,6 +13,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, language, setLanguage })
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [registerData, setRegisterData] = useState({
+    name: '',
+    email: '',
+    username: '',
+    password: ''
+  });
+  const [registerSuccess, setRegisterSuccess] = useState(false);
   const t = translations[language];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,51 +61,133 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, language, setLanguage })
           <p className="text-sky-600 font-bold tracking-widest uppercase text-[10px] mt-2">{t.universe}</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 mt-8">
-          <div className="space-y-2">
-            <label className="text-[10px] font-black text-sky-800 uppercase tracking-[0.2em] ml-2">{t.email}</label>
-            <input
-              type="email"
-              required
-              className="w-full px-6 py-4 bg-white/50 border border-sky-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-cyan-400/20 transition-all text-sky-900 placeholder-sky-200 shadow-inner"
-              placeholder="tu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-[10px] font-black text-sky-800 uppercase tracking-[0.2em] ml-2">{t.password}</label>
-            <input
-              type="password"
-              required
-              className="w-full px-6 py-4 bg-white/50 border border-sky-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-cyan-400/20 transition-all text-sky-900 placeholder-sky-200 shadow-inner"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-gradient-to-r from-sky-500 to-cyan-400 text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-cyan-200/50 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-3"
+        {showRegister ? (
+          <form
+            className="space-y-6 mt-8"
+            onSubmit={async e => {
+              e.preventDefault();
+              // Aquí deberías hacer la petición a tu backend para crear el usuario
+              setRegisterSuccess(true);
+              setTimeout(() => {
+                setShowRegister(false);
+                setRegisterSuccess(false);
+              }, 2000);
+            }}
           >
-            {isLoading ? (
-              <>
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              </>
-            ) : (
-              t.enter
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-sky-800 uppercase tracking-[0.2em] ml-2">Nombre</label>
+              <input
+                type="text"
+                required
+                className="w-full px-6 py-4 bg-white/50 border border-sky-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-cyan-400/20 transition-all text-sky-900 placeholder-sky-200 shadow-inner"
+                placeholder="Tu nombre"
+                value={registerData.name}
+                onChange={e => setRegisterData({ ...registerData, name: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-sky-800 uppercase tracking-[0.2em] ml-2">Email</label>
+              <input
+                type="email"
+                required
+                className="w-full px-6 py-4 bg-white/50 border border-sky-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-cyan-400/20 transition-all text-sky-900 placeholder-sky-200 shadow-inner"
+                placeholder="tu@email.com"
+                value={registerData.email}
+                onChange={e => setRegisterData({ ...registerData, email: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-sky-800 uppercase tracking-[0.2em] ml-2">Usuario</label>
+              <input
+                type="text"
+                required
+                className="w-full px-6 py-4 bg-white/50 border border-sky-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-cyan-400/20 transition-all text-sky-900 placeholder-sky-200 shadow-inner"
+                placeholder="Nombre de usuario"
+                value={registerData.username}
+                onChange={e => setRegisterData({ ...registerData, username: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-sky-800 uppercase tracking-[0.2em] ml-2">Contraseña</label>
+              <input
+                type="password"
+                required
+                className="w-full px-6 py-4 bg-white/50 border border-sky-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-cyan-400/20 transition-all text-sky-900 placeholder-sky-200 shadow-inner"
+                placeholder="••••••••"
+                value={registerData.password}
+                onChange={e => setRegisterData({ ...registerData, password: e.target.value })}
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-sky-500 to-cyan-400 text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-cyan-200/50 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-3"
+            >
+              Crear cuenta
+            </button>
+            <button
+              type="button"
+              className="w-full mt-2 bg-gray-200 hover:bg-gray-300 text-cyan-700 font-bold py-2 px-4 rounded-lg transition-all"
+              onClick={() => setShowRegister(false)}
+            >
+              Cancelar
+            </button>
+            {registerSuccess && (
+              <div className="text-green-600 text-center mt-2">¡Cuenta creada con éxito!</div>
             )}
-          </button>
-        </form>
+          </form>
+        ) : (
+          <>
+            <form onSubmit={handleSubmit} className="space-y-6 mt-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-sky-800 uppercase tracking-[0.2em] ml-2">{t.email}</label>
+                <input
+                  type="email"
+                  required
+                  className="w-full px-6 py-4 bg-white/50 border border-sky-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-cyan-400/20 transition-all text-sky-900 placeholder-sky-200 shadow-inner"
+                  placeholder="tu@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-sky-800 uppercase tracking-[0.2em] ml-2">{t.password}</label>
+                <input
+                  type="password"
+                  required
+                  className="w-full px-6 py-4 bg-white/50 border border-sky-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-cyan-400/20 transition-all text-sky-900 placeholder-sky-200 shadow-inner"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-sky-500 to-cyan-400 text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-cyan-200/50 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-3"
+              >
+                {isLoading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  </>
+                ) : (
+                  t.enter
+                )}
+              </button>
+            </form>
 
-        <div className="pt-8 text-center border-t border-sky-50">
-          <p className="text-sm text-sky-400">
-            {t.noAccount} <span className="text-cyan-600 font-bold hover:underline cursor-pointer">{t.createLibrary}</span>
-          </p>
-        </div>
+            <div className="pt-8 text-center border-t border-sky-50">
+              <p className="text-sm text-sky-400">
+                {t.noAccount}{' '}
+                <span
+                  className="text-cyan-600 font-bold hover:underline cursor-pointer"
+                  onClick={() => setShowRegister(true)}
+                >
+                  {t.createLibrary}
+                </span>
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
