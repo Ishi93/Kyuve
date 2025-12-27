@@ -211,7 +211,7 @@ const App: React.FC = () => {
                   status: item.status || '',
                   rating: item.rating,
                   tags: item.tags || []
-                }} />
+                }} language={language} />
               ))
             )}
           </div>
@@ -249,19 +249,21 @@ const App: React.FC = () => {
       case 'profile':
         return (
           <div className="p-12 flex flex-col items-center">
-            <UserProfile user={user} onUpdate={handleUpdateProfile} />
+            <UserProfile user={user} onUpdate={handleUpdateProfile} language={language} />
             <div className="flex flex-col md:flex-row gap-8 mt-8 w-full max-w-4xl justify-center">
               <BookListMenu
-                title="Leídos"
+                title={t.read}
                 books={readBooks}
                 onAdd={addReadBook}
                 onRemove={removeReadBook}
+                language={language}
               />
               <BookListMenu
-                title="Pendientes"
+                title={t.pending}
                 books={pendingBooks}
                 onAdd={addPendingBook}
                 onRemove={removePendingBook}
+                language={language}
               />
             </div>
           </div>

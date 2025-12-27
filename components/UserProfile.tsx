@@ -1,4 +1,5 @@
-import React, { useState, ChangeEvent } from 'react';
+
+import { translations, Language } from '../translations';
 
 interface UserProfileProps {
   user: {
@@ -7,9 +8,11 @@ interface UserProfileProps {
     email?: string;
   };
   onUpdate: (data: { nick: string; avatar: string }) => void;
+  language?: Language;
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({ user, onUpdate }) => {
+const UserProfile: React.FC<UserProfileProps> = ({ user, onUpdate, language = 'es' }) => {
+  const t = translations[language];
   const [nick, setNick] = useState(user.nick);
   const [avatar, setAvatar] = useState(user.avatar);
   const [editing, setEditing] = useState(false);
@@ -53,13 +56,13 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onUpdate }) => {
             className="border rounded-xl px-4 py-2 w-full mb-2"
             value={nick}
             onChange={e => setNick(e.target.value)}
-            placeholder="Nuevo nick"
+            placeholder={t.newNick || 'Nuevo nick'}
           />
           <input
             className="border rounded-xl px-4 py-2 w-full mb-2"
             value={avatar}
             onChange={e => setAvatar(e.target.value)}
-            placeholder="URL del avatar"
+            placeholder={t.avatarUrl || 'URL del avatar'}
             disabled={!!file}
           />
           <input
@@ -69,15 +72,15 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onUpdate }) => {
             onChange={handleFileChange}
           />
           <div className="flex gap-4">
-            <button className="bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold" onClick={handleSave}>Guardar</button>
-            <button className="bg-gray-300 px-6 py-2 rounded-xl font-bold" onClick={() => { setEditing(false); setFile(null); setPreview(null); }}>Cancelar</button>
+            <button className="bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold" onClick={handleSave}>{t.save || 'Guardar'}</button>
+            <button className="bg-gray-300 px-6 py-2 rounded-xl font-bold" onClick={() => { setEditing(false); setFile(null); setPreview(null); }}>{t.cancel || 'Cancelar'}</button>
           </div>
         </>
       ) : (
         <>
           <h2 className="text-3xl font-bold mb-2">{nick}</h2>
           <button className="bg-cyan-400 text-white px-6 py-2 rounded-xl font-bold" onClick={() => setEditing(true)}>
-            Editar perfil
+            {t.editProfile || 'Editar perfil'}
           </button>
         </>
       )}

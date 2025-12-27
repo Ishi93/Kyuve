@@ -25,7 +25,7 @@ export async function uploadMediaImages(coverFile: File | null, backCoverFile: F
   return res.json();
 }
 
-const API_URL = 'http://localhost:4000/api';
+const API_URL = (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/$/, '') : 'http://localhost:4000') + '/api';
 
 export async function getBooks() {
   const res = await fetch(`${API_URL}/books`);

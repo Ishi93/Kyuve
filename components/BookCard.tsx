@@ -1,14 +1,16 @@
 
 import React from 'react';
 import { Book } from '../types';
+import { translations, Language } from '../translations';
 
-interface BookCardProps {
   book: Book;
   onClick?: () => void;
   showStatus?: boolean;
+  language?: Language;
 }
 
-const BookCard: React.FC<BookCardProps> = ({ book, onClick, showStatus = true }) => {
+const BookCard: React.FC<BookCardProps> = ({ book, onClick, showStatus = true, language = 'es' }) => {
+  const t = translations[language];
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Read': return 'bg-cyan-100 text-cyan-700';
@@ -38,7 +40,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onClick, showStatus = true })
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-           <span className="text-white text-xs font-bold uppercase tracking-widest underline decoration-sky-400 decoration-2 underline-offset-4">Quick View</span>
+           <span className="text-white text-xs font-bold uppercase tracking-widest underline decoration-sky-400 decoration-2 underline-offset-4">{t.quickView || 'Quick View'}</span>
         </div>
       </div>
       <div className="p-5">
@@ -51,7 +53,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onClick, showStatus = true })
             <span className="ml-2 text-sky-300 font-bold">{book.rating}.0</span>
           </div>
         ) : (
-          <div className="text-[10px] text-sky-200 font-bold uppercase">No Rating</div>
+          <div className="text-[10px] text-sky-200 font-bold uppercase">{t.noRating || 'No Rating'}</div>
         )}
         
         <div className="flex flex-wrap gap-1 mt-4">
