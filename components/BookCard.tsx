@@ -1,8 +1,10 @@
 
+
 import React from 'react';
 import { Book } from '../types';
 import { translations, Language } from '../translations';
 
+interface BookCardProps {
   book: Book;
   onClick?: () => void;
   showStatus?: boolean;
