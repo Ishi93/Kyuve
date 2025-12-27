@@ -1,4 +1,12 @@
 
+interface ImportMetaEnv {
+  VITE_API_URL: string;
+}
+
+interface ImportMeta {
+  env: ImportMetaEnv;
+}
+
 export type BookStatus = 'Read' | 'Reading' | 'Want to Read' | 'To Buy';
 
 export interface Book {

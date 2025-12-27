@@ -1,4 +1,5 @@
 
+import React, { useState, ChangeEvent } from 'react';
 import { translations, Language } from '../translations';
 
 interface UserProfileProps {
