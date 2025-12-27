@@ -7,13 +7,27 @@ const User = require('./models/User.js').default;
 async function createUsers() {
   await mongoose.connect(process.env.MONGODB_URI);
 
-  // Crear usuario admin
 
+  // Crear admin jesusmoren93@gmail.com
   await User.create({
-    name: 'Admin',
-    email: 'admin@demo.com',
-    username: 'admin',
-    password: 'admin123',
+    name: 'Jesús Moren',
+    email: 'jesusmoren93@gmail.com',
+    username: 'jesusmoren93',
+    password: 'susejjesus1993!!',
+    avatar: '',
+    bio: 'Administrador',
+    following: 0,
+    followers: 0,
+    stats: { read: 0, toRead: 0, toBuy: 0 },
+    role: 'admin'
+  });
+
+  // Crear admin myurane95@gmail.com
+  await User.create({
+    name: 'Myurane Admin',
+    email: 'myurane95@gmail.com',
+    username: 'myurane95',
+    password: 'Myr2025!XyZ',
     avatar: '',
     bio: 'Administrador',
     following: 0,
